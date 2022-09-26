@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.room.Room
 import com.example.movieapp.common.Constants
 import com.example.movieapp.data.local.MovieDatabase
+import com.example.movieapp.data.local.repository.MovieRepositoryImpl
 import com.example.movieapp.data.remote.MovieApi
 import com.example.movieapp.data.remote.repository.MovieApiRepositoryImpl
 import com.example.movieapp.domain.repository.MovieApiRepository
+import com.example.movieapp.domain.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,5 +45,11 @@ object AppModule {
             MovieDatabase::class.java,
             "movie_db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepository(db: MovieDatabase): MovieRepository {
+        return MovieRepositoryImpl(db.movieDao)
     }
 }

@@ -1,11 +1,9 @@
 package com.example.movieapp.data.remote.dto
 
-import java.util.*
-
 data class MovieApiDto(
     val adTagUri: String?,
-    val certificateUri: Objects?,
-    val clearKeys: Objects?,
+    val certificateUri: Object?,
+    val clearKeys: Object?,
     val description: String?,
     val disabled: Boolean?,
     val drm: List<String?>?,
@@ -22,10 +20,10 @@ data class MovieApiDto(
     val licenseServers: LicenseServers?,
     val manifestUri: String?,
     val mediaPlaylistFullMimeType: String?,
-    val mimeType: Objects?,
+    val mimeType: Object?,
     val name: String?,
-    val requestFilter: Objects?,
-    val responseFilter: Objects?,
+    val requestFilter: Object?,
+    val responseFilter: Object?,
     val shortName: String?,
     val source: String?,
     val storedContent: StoredContent?,

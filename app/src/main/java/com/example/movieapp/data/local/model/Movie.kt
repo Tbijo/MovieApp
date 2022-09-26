@@ -1,16 +1,15 @@
-package com.example.movieapp.data.local
+package com.example.movieapp.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.movieapp.data.remote.dto.*
-import java.util.*
 
 @Entity
 data class Movie(
     @PrimaryKey val id: Int? = null,
     val adTagUri: String?,
-    val certificateUri: Objects?,
-    val clearKeys: Objects?,
+    val certificateUri: Object?,
+    val clearKeys: Object?,
     val description: String?,
     val disabled: Boolean?,
     val drm: List<String?>?,
@@ -27,10 +26,10 @@ data class Movie(
     val licenseServers: LicenseServers?,
     val manifestUri: String?,
     val mediaPlaylistFullMimeType: String?,
-    val mimeType: Objects?,
+    val mimeType: Object?,
     val name: String?,
-    val requestFilter: Objects?,
-    val responseFilter: Objects?,
+    val requestFilter: Object?,
+    val responseFilter: Object?,
     val shortName: String?,
     val source: String?,
     val storedContent: StoredContent?,

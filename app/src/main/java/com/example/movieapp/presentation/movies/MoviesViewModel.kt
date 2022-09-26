@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation
+package com.example.movieapp.presentation.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieViewModel @Inject constructor(
+class MoviesViewModel @Inject constructor(
     private val getMovies: GetMoviesApi
 ): ViewModel() {
 
