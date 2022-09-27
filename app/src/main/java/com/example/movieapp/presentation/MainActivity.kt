@@ -23,8 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val viewmodel= hiltViewModel<MovieListViewModel>()
-                    viewmodel.getMovie()
+                    val viewmodel = hiltViewModel<MovieListViewModel>()
                 }
             }
         }

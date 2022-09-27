@@ -1,4 +1,8 @@
 package com.example.movieapp.presentation.movie_list
 
-class MovieListScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun MovieListScreen() {
+
 }

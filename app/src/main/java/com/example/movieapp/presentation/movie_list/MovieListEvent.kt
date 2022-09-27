@@ -9,7 +9,7 @@ sealed class MovieListEvent {
     data class Order(val orderType: OrderType, val name: String): MovieListEvent()
 
     // click to redownload data
-    object RestoreNote: MovieListEvent()
+    object RestoreData: MovieListEvent()
 
     // Hide or Show order section
     object ToggleOrderSection: MovieListEvent()
