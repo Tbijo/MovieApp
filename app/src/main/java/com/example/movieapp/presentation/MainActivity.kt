@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.movieapp.presentation.movies.MoviesViewModel
+import com.example.movieapp.presentation.movie_list.MovieListViewModel
 import com.example.movieapp.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val viewmodel= hiltViewModel<MoviesViewModel>()
+                    val viewmodel= hiltViewModel<MovieListViewModel>()
                     viewmodel.getMovie()
                 }
             }

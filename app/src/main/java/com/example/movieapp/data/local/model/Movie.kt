@@ -35,3 +35,35 @@ data class Movie(
     val storedContent: StoredContent?,
     val storedProgress: Int?
 )
+
+fun MovieApiDto.toMovie(): Movie {
+    return Movie(
+        adTagUri = adTagUri,
+        certificateUri = certificateUri,
+        clearKeys = clearKeys,
+        description = description,
+        disabled = disabled,
+        drm = drm,
+        extraConfig = extraConfig,
+        extraText = extraText,
+        features = features,
+        focus = focus,
+        iconUri = iconUri,
+        imaAssetKey = imaAssetKey,
+        imaContentSrcId = imaContentSrcId,
+        imaVideoId = imaVideoId,
+        isFeatured = isFeatured,
+        licenseRequestHeaders = licenseRequestHeaders,
+        licenseServers = licenseServers,
+        manifestUri = manifestUri,
+        mediaPlaylistFullMimeType = mediaPlaylistFullMimeType,
+        mimeType = mimeType,
+        name = name,
+        requestFilter = requestFilter,
+        responseFilter = responseFilter,
+        shortName = shortName,
+        source = source,
+        storedContent = storedContent,
+        storedProgress = storedProgress
+    )
+}

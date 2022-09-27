@@ -8,4 +8,6 @@ interface MovieRepository {
     suspend fun insertMovies(movies: List<Movie>)
 
     fun getMovies(): Flow<List<Movie>>
+
+    fun getMoviesByName(name: String): Flow<List<Movie>>
 }

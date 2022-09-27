@@ -17,4 +17,8 @@ class MovieRepositoryImpl(
         return movieDao.getMovies()
     }
 
+    override fun getMoviesByName(name: String): Flow<List<Movie>> {
+        return movieDao.getMoviesByName(name)
+    }
+
 }

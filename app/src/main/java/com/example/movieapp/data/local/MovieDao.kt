@@ -15,4 +15,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM movie")
     fun getMovies(): Flow<List<Movie>>
+
+    @Query("SELECT * FROM movie WHERE name LIKE :name")
+    fun getMoviesByName(name: String): Flow<List<Movie>>
 }

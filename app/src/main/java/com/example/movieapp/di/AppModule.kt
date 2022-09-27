@@ -9,6 +9,7 @@ import com.example.movieapp.data.remote.MovieApi
 import com.example.movieapp.data.remote.repository.MovieApiRepositoryImpl
 import com.example.movieapp.domain.repository.MovieApiRepository
 import com.example.movieapp.domain.repository.MovieRepository
+import com.example.movieapp.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +40,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNoteDatabase(app: Application): MovieDatabase{
+    fun provideMovieDatabase(app: Application): MovieDatabase {
         return Room.databaseBuilder(
             app,
             MovieDatabase::class.java,
@@ -51,5 +52,16 @@ object AppModule {
     @Singleton
     fun provideMovieRepository(db: MovieDatabase): MovieRepository {
         return MovieRepositoryImpl(db.movieDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieUseCases(repo: MovieRepository, apiRepo: MovieApiRepository): MovieUseCases {
+        return MovieUseCases(
+            addMovies = AddMovies(repo),
+            getMovies = GetMovies(repo),
+            getMoviesByName = GetMoviesByName(repo),
+            getMoviesApi = GetMoviesApi(apiRepo)
+        )
     }
 }
