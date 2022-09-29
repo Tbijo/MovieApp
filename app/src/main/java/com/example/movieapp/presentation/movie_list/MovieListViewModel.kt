@@ -102,9 +102,12 @@ class MovieListViewModel @Inject constructor(
                     }
                 }
                 is Resource.Error -> {
-                    _movieListState.value = MovieListState(
-                        error = result.message ?: "An unexpected error has occurred"
-                    )
+                    movieUseCases.getMovies().onEach {
+                        _movieListState.value = MovieListState(
+                            movies = it,
+                            error = result.message ?: "An unexpected error has occurred"
+                        )
+                    }
                 }
                 is Resource.Loading -> {
                     _movieListState.value = MovieListState(isLoading = true)
@@ -116,7 +119,10 @@ class MovieListViewModel @Inject constructor(
     private fun findSortMovies(name: String, orderType: OrderType) {
         findMovieJob?.cancel()
         findMovieJob = movieUseCases.getMoviesByName(name, orderType).onEach {
-            _movieListState.value = MovieListState(movies = it, orderType = orderType)
+            _movieListState.value = movieListState.value.copy(
+                movies = it,
+                orderType = orderType
+            )
         }.launchIn(viewModelScope)
     }
 
