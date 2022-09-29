@@ -15,8 +15,8 @@ import com.example.movieapp.R
 fun MovieIcon(imageUrl: String) {
     Box {
         val painter = rememberImagePainter(data = imageUrl, builder = {
-            placeholder(R.drawable.ic_broken_image)
-            error(R.drawable.ic_broken_image)
+            placeholder(R.drawable.no_image)
+            error(R.drawable.no_image)
         })
         val painterState = painter.state
         Image(painter = painter, contentDescription = "Movie Icon")
