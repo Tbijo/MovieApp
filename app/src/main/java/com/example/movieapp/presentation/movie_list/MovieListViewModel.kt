@@ -80,7 +80,12 @@ class MovieListViewModel @Inject constructor(
             }
 
             // to Download, Store and show data
-            MovieListEvent.RestoreData -> restoreData()
+            MovieListEvent.RestoreData -> {
+                // only restore data if downloading failed
+                if (movieListState.value.movies.isEmpty()) {
+                    restoreData()
+                }
+            }
 
             // to show and hide Order Section
             MovieListEvent.ToggleOrderSection -> {

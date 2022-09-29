@@ -25,6 +25,11 @@ fun DefaultTextField(
     Box {
         OutlinedTextField(
             value = text,
+            label = {
+                if(isHintVisible) {
+                    Text(text = hint, style = textStyle, color = Color.DarkGray)
+                }
+            },
             onValueChange = onValueChange,
             singleLine = singleLine,
             textStyle = textStyle,
@@ -34,8 +39,5 @@ fun DefaultTextField(
                     onFocusChange(it)
                 }
         )
-        if(isHintVisible) {
-            Text(text = hint, style = textStyle, color = Color.DarkGray)
-        }
     }
 }

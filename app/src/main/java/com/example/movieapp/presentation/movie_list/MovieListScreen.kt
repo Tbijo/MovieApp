@@ -18,8 +18,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.draw.clip
@@ -58,16 +60,26 @@ fun MovieListScreen(
                 )
                 IconButton(
                     onClick = {
+                        viewModel.onEvent(MovieListEvent.RestoreData)
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Refresh,
+                        contentDescription = "Refresh Data",
+                        tint = MaterialTheme.colors.primary
+                    )
+                }
+                IconButton(
+                    onClick = {
                         viewModel.onEvent(MovieListEvent.ToggleOrderSection)
                     },
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Settings,
+                        imageVector = Icons.Rounded.Settings,
                         contentDescription = "Search",
-                        tint = Color.White
+                        tint = MaterialTheme.colors.primary
                     )
                 }
-                // TODO Sem este Refresh Icon button
             }
             AnimatedVisibility(
                 visible = state.isOrderSectionVisible,
@@ -108,9 +120,14 @@ fun MovieListScreen(
                             MovieItem(
                                 movie = movie,
                                 onItemClicked = {
-                                    // TODO if movie.drm list
-                                    Toast.makeText(mContext, "", Toast.LENGTH_LONG).show()
-                                    //navController.navigate(Screens.MoviePlayerScreen.route + "/${movie.manifestUri}")
+                                    if (movie.drm?.contains("DEMO_CLEAR") == false) {
+                                        Toast.makeText(mContext, "DRM does not contain DEMO_CLEAR.", Toast.LENGTH_LONG).show()
+                                    } else if (movie.manifestUri == null) {
+                                        Toast.makeText(mContext, "Movie link unavailable.", Toast.LENGTH_LONG).show()
+                                    }
+                                    else {
+                                        navController.navigate(Screens.MoviePlayerScreen.route + "?movieUri=${movie.manifestUri}")
+                                    }
                                 }
                             )
                         }
