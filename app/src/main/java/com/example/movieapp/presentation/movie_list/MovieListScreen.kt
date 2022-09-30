@@ -21,6 +21,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -54,10 +56,6 @@ fun MovieListScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Movies",
-                    style = MaterialTheme.typography.h4
-                )
                 IconButton(
                     onClick = {
                         viewModel.onEvent(MovieListEvent.RestoreData)
@@ -69,6 +67,10 @@ fun MovieListScreen(
                         tint = MaterialTheme.colors.primary
                     )
                 }
+                Text(
+                    text = "Videos",
+                    style = MaterialTheme.typography.h4
+                )
                 IconButton(
                     onClick = {
                         viewModel.onEvent(MovieListEvent.ToggleOrderSection)
