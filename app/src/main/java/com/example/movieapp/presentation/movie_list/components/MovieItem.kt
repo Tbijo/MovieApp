@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.movie_list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,20 +19,22 @@ fun MovieItem(
     movie: MovieItemModel,
     onItemClicked: (MovieItemModel) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onItemClicked(movie) }
-            .padding(20.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        MovieIcon(
-            imageUrl = movie.iconUri ?: ""
-        )
-        Text(
-            text = movie.name ?: "No name",
-            style = TextStyle(Color.White),
-            overflow = TextOverflow.Ellipsis
-        )
+    Card {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onItemClicked(movie) }
+                .padding(20.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            MovieIcon(
+                imageUrl = movie.iconUri ?: ""
+            )
+            Text(
+                text = movie.name ?: "No name",
+                style = TextStyle(Color.White),
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
