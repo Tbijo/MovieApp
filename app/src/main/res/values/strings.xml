@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">MovieApp</string>
+
+    <!--Test Tags-->
+
+    <!--Order section in MovieListScreen-->
+    <string name="order_section">ORDER_SECTION</string>
+
+    <!--Radio buttons in Order section-->
+    <string name="Ascending">Ascending</string>
+    <string name="Descending">Descending</string>
+
+    <!--Movie item in movie list-->
+    <string name="movie_item">MOVIE_ITEM</string>
+
+    <!--TextField in Order section-->
+    <string name="text_field">TEXT_FIELD</string>
+
+    <!--Icon button to display Order section-->
+    <string name="search">SEARCH</string>
+
+    <!--Worker Manager-->
+    <string name="error_message">ERROR_MESSAGE</string>
 </resources>
