@@ -13,8 +13,8 @@ class MovieRepositoryImpl(
         movieDao.insertMovies(movies)
     }
 
-    override suspend fun updateMovie(movieId: Long, filePath: String) {
-        movieDao.updateMovie(movieId, filePath)
+    override suspend fun addFilePathToMovie(movieId: Long, filePath: String) {
+        movieDao.addFilePathToMovie(movieId, filePath)
     }
 
     override fun getMovies(): Flow<List<Movie>> {

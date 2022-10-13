@@ -1,6 +1,7 @@
 package com.example.movieapp.feat_movie.presentation.movie_player
 
 import android.net.Uri
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

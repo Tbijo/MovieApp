@@ -2,8 +2,7 @@ package com.example.movieapp.feat_movie.presentation.movie_list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +19,9 @@ import com.example.movieapp.feat_movie.domain.model.MovieItemModel
 @Composable
 fun MovieItem(
     movie: MovieItemModel,
-    onItemClicked: (MovieItemModel) -> Unit
+    onItemClicked: (MovieItemModel) -> Unit,
+    btnText: String = "Download",
+    onBtnClick: (MovieItemModel) -> Unit
 ) {
     val mContext = LocalContext.current
 
@@ -32,7 +33,7 @@ fun MovieItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onItemClicked(movie) }
-                .padding(20.dp),
+                .padding(15.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             MovieIcon(
@@ -40,9 +41,13 @@ fun MovieItem(
             )
             Text(
                 text = movie.name ?: "No name",
-                style = TextStyle(Color.Black),
-                overflow = TextOverflow.Ellipsis
+                style = TextStyle(Color.White),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
+            Button(onClick = { onBtnClick(movie) }) {
+                Text(text = btnText)
+            }
         }
     }
 }

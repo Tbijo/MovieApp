@@ -19,4 +19,7 @@ sealed class MovieListEvent {
 
     // click on textfield to hide the hint
     data class ChangeTitleFocus(val focusState: FocusState): MovieListEvent()
+
+    // click to download and store a video
+    data class DownloadVideo(val url: String, val movieName: String, val movieId: Long): MovieListEvent()
 }

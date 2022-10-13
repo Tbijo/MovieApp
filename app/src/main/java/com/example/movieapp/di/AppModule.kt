@@ -72,7 +72,7 @@ object AppModule {
             getMovies = GetMovies(repo),
             getMoviesByName = GetMoviesByName(repo),
             getMoviesApi = GetMoviesApi(apiRepo),
-            updateMovie = UpdateMovie(repo)
+            addFilePathToMovie = AddFilePathToMovie(repo)
         )
     }
 }

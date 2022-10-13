@@ -17,7 +17,7 @@ class MovieApplication: Application(), Configuration.Provider {
         // channels are necessary only for Build versions lower than Oreo
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                "download_channel",
+                applicationContext.resources.getString(R.string.chan_done),
                 "File download",
                 NotificationManager.IMPORTANCE_HIGH
             )

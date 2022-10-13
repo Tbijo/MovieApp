@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import com.example.movieapp.R
+import com.example.movieapp.feat_movie.domain.model.MovieItemModel
 import com.example.movieapp.feat_movie.presentation.movie_list.components.OrderSection
 
 @ExperimentalCoilApi
@@ -118,15 +119,29 @@ fun MovieListScreen(
                             MovieItem(
                                 movie = movie,
                                 onItemClicked = {
-                                    if (movie.drm?.contains("DEMO_CLEAR") == false) {
-                                        Toast.makeText(mContext, "DRM does not contain DEMO_CLEAR.", Toast.LENGTH_LONG).show()
-                                    } else if (movie.manifestUri == null) {
-                                        Toast.makeText(mContext, "Movie link unavailable.", Toast.LENGTH_LONG).show()
-                                    }
-                                    else {
+                                    if (isMovieAvailable(movie)) {
                                         navController.navigate(Screens.MoviePlayerScreen.route + "?movieUri=${movie.manifestUri}")
+                                    } else {
+                                        Toast.makeText(mContext, "Movie unavailable.", Toast.LENGTH_LONG).show()
                                     }
-                                }
+                                },
+                                onBtnClick = {
+                                    if (movie.filePath != null) {
+                                        Toast.makeText(mContext, "File unplayable.", Toast.LENGTH_LONG).show()
+                                        //navController.navigate(Screens.MoviePlayerScreen.route + "?movieUri=${movie.filePath}")
+                                    } else {
+                                        if (isMovieAvailable(movie)) {
+                                            viewModel.onEvent(MovieListEvent.DownloadVideo(
+                                                url = movie.manifestUri!!,
+                                                movieName = movie.name!!,
+                                                movieId = movie.id
+                                            ))
+                                        } else {
+                                            Toast.makeText(mContext, "Movie unavailable.", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                },
+                                btnText = if (movie.filePath != null) "Play Offline" else "Download"
                             )
                         }
                     }
@@ -151,4 +166,14 @@ fun MovieListScreen(
             }
         }
     }
+}
+
+private fun isMovieAvailable(movie: MovieItemModel): Boolean {
+    if (movie.drm?.contains("DEMO_CLEAR") == false) {
+        return false
+    }
+    if (movie.manifestUri == null) {
+        return false
+    }
+    return true
 }

@@ -14,7 +14,7 @@ interface MovieDao {
     suspend fun insertMovies(movies: List<Movie>)
 
     @Query("UPDATE movie SET filePath = :filePath WHERE id = :movieId")
-    suspend fun updateMovie(movieId: Long, filePath: String)
+    suspend fun addFilePathToMovie(movieId: Long, filePath: String)
 
     @Query("SELECT * FROM movie")
     fun getMovies(): Flow<List<Movie>>

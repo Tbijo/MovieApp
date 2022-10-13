@@ -7,7 +7,7 @@ interface MovieRepository {
 
     suspend fun insertMovies(movies: List<Movie>)
 
-    suspend fun updateMovie(movieId: Long, filePath: String)
+    suspend fun addFilePathToMovie(movieId: Long, filePath: String)
 
     fun getMovies(): Flow<List<Movie>>
 

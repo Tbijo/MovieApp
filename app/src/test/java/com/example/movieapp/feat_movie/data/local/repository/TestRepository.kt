@@ -14,6 +14,10 @@ class TestRepository: MovieRepository {
         movieList.addAll(movies)
     }
 
+    override suspend fun addFilePathToMovie(movieId: Long, filePath: String) {
+        TODO("Not yet implemented")
+    }
+
     override fun getMovies(): Flow<List<Movie>> {
         return flow {
             emit(movieList)

@@ -1,11 +1,15 @@
 package com.example.movieapp.feat_movie.presentation.movie_list
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.*
+import com.example.movieapp.R
 import com.example.movieapp.common.Resource
 import com.example.movieapp.feat_movie.domain.model.MovieItemModel
+import com.example.movieapp.feat_movie.domain.service.DownloadVideoWorker
 import com.example.movieapp.feat_movie.domain.use_case.*
 import com.example.movieapp.feat_movie.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val movieUseCases: MovieUseCases
+    private val movieUseCases: MovieUseCases,
+    private val appContext: Application
 ) : ViewModel() {
 
     // State for text field to filter movies by name
@@ -34,13 +39,14 @@ class MovieListViewModel @Inject constructor(
     // to not have multiple instances of this flow
     // the old coroutine will be canceled
     private var findMovieJob: Job? = null
-    private var restoreData: Job? = null
+    private var downloadDataJob: Job? = null
+    private var restoreDataJob: Job? = null
 
     init {
         // if no data Download, Store, Show else Show
         movieUseCases.getMovies().onEach { movieItemList: List<MovieItemModel> ->
             if (movieItemList.isEmpty()) {
-                restoreData()
+                downloadData()
             } else {
                 _movieListState.value = MovieListState(movies = movieItemList)
             }
@@ -79,10 +85,12 @@ class MovieListViewModel @Inject constructor(
                 findSortMovies(name, orderType)
             }
 
-            // to Download, Store and show data
+            // to Download, Save and show data
             MovieListEvent.RestoreData -> {
                 // only restore data if downloading failed
                 if (movieListState.value.movies.isEmpty()) {
+                    downloadData()
+                } else {
                     restoreData()
                 }
             }
@@ -93,12 +101,16 @@ class MovieListViewModel @Inject constructor(
                     isOrderSectionVisible = !movieListState.value.isOrderSectionVisible
                 )
             }
+            // to download and store a video, save file path in corresponding video row in db
+            is MovieListEvent.DownloadVideo -> {
+                startWorkManager(event.url, event.movieName, event.movieId)
+            }
         }
     }
 
-    private fun restoreData() {
-        restoreData?.cancel()
-        restoreData = movieUseCases.getMoviesApi().onEach { result ->
+    private fun downloadData() {
+        downloadDataJob?.cancel()
+        downloadDataJob = movieUseCases.getMoviesApi().onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     movieUseCases.addMovies(result.data ?: emptyList())
@@ -121,6 +133,13 @@ class MovieListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun restoreData() {
+        restoreDataJob?.cancel()
+        restoreDataJob = movieUseCases.getMovies().onEach { movieItemList: List<MovieItemModel> ->
+            _movieListState.value = MovieListState(movies = movieItemList)
+        }.launchIn(viewModelScope)
+    }
+
     private fun findSortMovies(name: String, orderType: OrderType) {
         findMovieJob?.cancel()
         findMovieJob = movieUseCases.getMoviesByName(name, orderType).onEach {
@@ -129,6 +148,29 @@ class MovieListViewModel @Inject constructor(
                 orderType = orderType
             )
         }.launchIn(viewModelScope)
+    }
+
+    private fun startWorkManager(url: String, movieName: String, movieId: Long) {
+        val downloadRequest = OneTimeWorkRequestBuilder<DownloadVideoWorker>()
+            .setInputData(
+                Data.Builder()
+                    .putString(appContext.resources.getString(R.string.url), url)
+                    .putString(appContext.resources.getString(R.string.movie_name), movieName)
+                    .putLong(appContext.resources.getString(R.string.movie_id), movieId)
+                    .build()
+            )
+            .setConstraints(
+                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            )
+            .build()
+
+        WorkManager.getInstance(appContext)
+            .beginUniqueWork(
+                "download",
+                ExistingWorkPolicy.APPEND_OR_REPLACE,
+                downloadRequest
+            )
+            .enqueue()
     }
 
 }
