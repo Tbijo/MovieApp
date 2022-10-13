@@ -51,7 +51,7 @@ class DownloadVideoWorker @AssistedInject constructor(
                         stream.write(body.bytes())
                     } catch(e: IOException) {
 
-                        startForegroundService("Download Failure", e.localizedMessage, context.resources.getString(R.string.chan_done))
+                        startForegroundService("Download Failure", "Unable to store the video.", context.resources.getString(R.string.chan_done))
                         return@withContext Result.failure()
                     }
                 }
