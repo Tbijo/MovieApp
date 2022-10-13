@@ -10,6 +10,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.compose.rememberNavController
 import androidx.test.core.app.ApplicationProvider
+import coil.annotation.ExperimentalCoilApi
 import com.example.movieapp.R
 import com.example.movieapp.di.AppModule
 import com.example.movieapp.feat_movie.presentation.MainActivity
@@ -34,6 +35,7 @@ class MovieListScreenTest {
 
     lateinit var context: Context
 
+    @ExperimentalCoilApi
     @ExperimentalFoundationApi
     @Before
     fun setUp() {

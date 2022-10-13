@@ -9,6 +9,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.example.movieapp.R
 import com.example.movieapp.feat_movie.data.remote_video.VideoApi
+import com.example.movieapp.feat_movie.domain.use_case.DownloadVideo
 import com.example.movieapp.feat_movie.domain.use_case.MovieUseCases
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -24,7 +25,7 @@ import kotlin.random.Random
 class DownloadVideoWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted private val workerParams: WorkerParameters,
-    private val videoApi: VideoApi,
+    private val downloadVideo: DownloadVideo,
     private val movieUseCases: MovieUseCases
 ): CoroutineWorker(context, workerParams) {
 
@@ -34,13 +35,7 @@ class DownloadVideoWorker @AssistedInject constructor(
         val movieName: String = inputData.getString(context.resources.getString(R.string.movie_name))!!
         val movieId: Long = inputData.getLong(context.resources.getString(R.string.movie_id), 0L)
 
-        val response = try {
-            videoApi.downloadVideo(url)
-        } catch (e: IOException) {
-            null
-        } catch (e: HttpException) {
-            null
-        }
+        val response = downloadVideo(url)
 
         response?.body()?.let { body ->
             return withContext(Dispatchers.IO) {
